@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 
 from tornado.testing import AsyncHTTPTestCase
-from server import application
+from cow.testing import CowTestCase
+from server import BlogServer
 
 
-class HandlersTestCase(AsyncHTTPTestCase):
+class HandlersTestCase(CowTestCase):
 
-    def get_app(self):
-        return application
+    def get_server(self):
+        return BlogServer()
 
     def test_home_handler(self):
         response = self.fetch('/')
 
         assert response.code == 200
-        assert response.body == 'Main blog'
+        assert response.body == 'Main blog 0!'
 
     def test_add_handler(self):
         response = self.fetch('/add')
