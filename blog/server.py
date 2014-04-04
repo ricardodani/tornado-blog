@@ -9,6 +9,9 @@ from handlers import (
 
 class BlogServer(Server):
 
+    def __init__(self, *args, **kwargs):
+        super(BlogServer, self).__init__(*args, **kwargs)
+
     def after_start(self, io_loop):
         self.application.db = self.application.get_sqlalchemy_session()
 
