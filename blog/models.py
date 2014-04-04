@@ -8,7 +8,8 @@ class Post(Base):
     __tablename__ = 'posts'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    title = sa.Column(sa.String)
+    title = sa.Column(sa.String(255))
+    description = sa.Column(sa.String(255))
     text = sa.Column(sa.Text)
 
     def __repr__(self):
