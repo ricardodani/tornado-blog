@@ -1,36 +1,27 @@
 # -*- coding: utf-8 -*-
 
 import tornado.ioloop
-import tornado.web
+from cow.server import Server
+from cow.plugins.sqlalchemy_plugin import SQLAlchemyPlugin
+from handlers import (
+    MainHandler, AddPostHandler, PostHandler, PostCommentsHandler
+)
 
+class BlogServer(Server):
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Main blog")
+    def after_start(self, io_loop):
+        self.application.db = self.application.get_sqlalchemy_session()
 
+    def get_handlers(self):
+        return (
+            (r'/', MainHandler),
+            (r'/add', AddPostHandler),
+            (r'/post/([0-9]+)', PostHandler),
+            (r'/post/([0-9]+)/comments', PostCommentsHandler),
+        )
 
-class AddPostHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Add post")
-
-
-class PostHandler(tornado.web.RequestHandler):
-    def get(self, post_id):
-        self.write("Post {}".format(post_id))
-
-
-class PostCommentsHandler(tornado.web.RequestHandler):
-    def get(self, post_id):
-        self.write("Post {} comments".format(post_id))
-
-
-application = tornado.web.Application([
-    (r'/', MainHandler),
-    (r'/add', AddPostHandler),
-    (r'/post/([0-9]+)', PostHandler),
-    (r'/post/([0-9]+)/comments', PostCommentsHandler),
-])
+    def get_plugins(self):
+        return [SQLAlchemyPlugin]
 
 if __name__ == '__main__':
-    application.listen(8888)
-    tornado.ioloop.IOLoop.instance().start()
+    BlogServer.run()

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import tornado
-
+from models import Post
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("Main blog")
+        posts = self.application.db.query(Post).all()
+        self.write("Main blog {}!".format(len(posts)))
 
 
 class AddPostHandler(tornado.web.RequestHandler):
