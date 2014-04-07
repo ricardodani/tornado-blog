@@ -23,6 +23,15 @@ class BlogServer(Server):
             (r'/post/([0-9]+)/comments', PostCommentsHandler),
         )
 
+    def get_settings(self):
+        settings = super(BlogServer, self).get_settings()
+        settings.update(dict(
+            site_title='Tornado Blog',
+            site_desc='A simple Tornado Blog written to learning purposes.',
+            debug=True
+        ))
+        return settings
+
     def get_plugins(self):
         return [SQLAlchemyPlugin]
 
