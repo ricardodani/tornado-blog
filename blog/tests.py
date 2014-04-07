@@ -4,9 +4,27 @@ from tornado.testing import AsyncHTTPTestCase
 from cow.testing import CowTestCase
 from derpconf.config import Config  # NOQA
 from server import BlogServer
+from models import Post
 
 
 class HandlersTestCase(CowTestCase):
+
+    @property
+    def db(self):
+        return self.get_app().db
+
+    #def setUp(self):
+        #super(HandlersTestCase, self).setUp()
+        #self.db.add_all([
+            #Post(title="Post 1", description="Description 1", text="Text 1"),
+            #Post(title="Post 2", description="Description 2", text="Text 2"),
+        #])
+        #self.db.commit()
+
+    #def tearDown(self):
+        #super(HandlersTestCase, self).tearDown()
+        #self.db.commit()
+
     def get_config(self):
         config = Config(
             SQLALCHEMY_CONNECTION_STRING="mysql+mysqldb://root@localhost:3306/test_tornado_blog",
@@ -23,7 +41,8 @@ class HandlersTestCase(CowTestCase):
         response = self.fetch('/')
 
         assert response.code == 200
-        assert response.body == 'Main blog 0!'
+        assert 'Post 1' in response.body
+        assert 'Post 2' in response.body
 
     def test_add_handler(self):
         response = self.fetch('/add')
