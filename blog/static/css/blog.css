@@ -53,6 +53,9 @@ h6, .h6 {
   color: #fff;
   text-decoration: none;
 }
+.blog-nav-item.no-padding {
+  padding: 0px;
+}
 
 /* Active state gets a caret at the bottom */
 .blog-nav .active {

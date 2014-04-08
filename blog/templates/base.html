@@ -23,6 +23,16 @@
         <nav class="blog-nav">
           <a class="blog-nav-item active" href="/">Home</a>
           <a class="blog-nav-item" href="/add">Add post</a>
+          {% if user %}
+            <li class="dropdown blog-nav-item pull-right">
+              <a href="#" class="dropdown-toggle blog-nav-item no-padding" data-toggle="dropdown">{{ user['name'] }}<b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/auth/logout">Logout</a></li>
+              </ul>
+            </li>
+          {% else %}
+            <a class="blog-nav-item pull-right" href="/auth/login">Login with Google</a>
+          {% end %}
         </nav>
       </div>
     </div>

@@ -4,7 +4,8 @@ import tornado.ioloop
 from cow.server import Server
 from cow.plugins.sqlalchemy_plugin import SQLAlchemyPlugin
 from handlers import (
-    MainHandler, AddPostHandler, PostHandler, PostCommentsHandler
+    MainHandler, AddPostHandler, PostHandler, PostCommentsHandler,
+    AuthLoginHandler, AuthLogoutHandler
 )
 
 class BlogServer(Server):
@@ -21,6 +22,8 @@ class BlogServer(Server):
             (r'/add', AddPostHandler),
             (r'/post/([0-9]+)', PostHandler),
             (r'/post/([0-9]+)/comments', PostCommentsHandler),
+            (r"/auth/login", AuthLoginHandler),
+            (r"/auth/logout", AuthLogoutHandler),
         )
 
     def get_settings(self):
@@ -28,7 +31,8 @@ class BlogServer(Server):
         settings.update(dict(
             site_title='Tornado Blog',
             site_desc='A simple Tornado Blog written to learning purposes.',
-            debug=True
+            debug=True,
+            cookie_secret='973590c362a6475f9a12e3151b253dc6'
         ))
         return settings
 
