@@ -5,7 +5,8 @@
         <div class="blog-post">
             <h2 class="blog-post-title">{{ post.title }}</h2>
             <p class="blog-post-meta">
-            {{ locale.format_date(post.created_at, full_format=True, shorter=True) }} by <a href="#">Mark</a></p>
+            {{ locale.format_date(post.created_at, full_format=True, shorter=True) }}
+            by <a href="#">{{ post.author.username }}</a></p>
             {% raw post.html %}
         </div>
         {% end %}
